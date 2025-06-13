@@ -1,39 +1,30 @@
-# Install Zabbix Agent2 on Ubuntu
-Repositories for teaching purposes at SPOS DK
+## 🖧 Síťové nastavení
 
-![Ubuntu and ZabbixAgent2 OSY AI](../Images/osy-Ubuntu-ZabbixAgent2.webp)
+| Síťový adaptér | Typ            | IP adresa      | Popis                       |
+|----------------|----------------|----------------|-----------------------------|
+| Adapter 1      | NAT            | DHCP           | Pro přístup k internetu     |
+| Adapter 2      | Interní síť    | 192.168.1.3    | Pro komunikaci se Zabbixem  |
 
-Repository pro vyuku na SPOS DK
+---
 
-## Automatická instalace Zabbix Agent2 na OS Linux Ubuntu
+## Automatická registrace
 
-- Vagrantfile obsahuje sekci pro aplikaci příkazů pro instalaci monitorovacího
-[Zabbix Agent2](https://www.zabbix.com/).
+Virtuální stroj se po spuštění zaregistruje do Zabbix Appliance pomocí **HostMetadata=SPOS**.
 
-### Instalace Zabbix Agent2
+**registrace:**
+- **Hostname**: `kovarik-zabbix`
+- **Host group**: `SPOS-Group`
+- **Template**: `Template OS Linux by Zabbix agent`
+- **Tag**: `env=SPOS`
+- **Zabbix Server IP**: `192.168.1.2`
 
-```console
-wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest+ubuntu22.04_all.deb
-dpkg -i zabbix-release_latest+ubuntu22.04_all.deb
+---
 
-apt-get update
-apt-get install -y zabbix-agent2 zabbix-agent2-plugin-*
+## skripty
 
-systemctl enable zabbix-agent2
-systemctl start zabbix-agent2
-```
+| Skript                      | Popis                                                                 |
+|-----------------------------|-----------------------------------------------------------------------|
+| `install-zabbix-agent2.sh`  | Instalace Zabbix agent2 7.0 LTS a pluginů                             |
+| `configure-zabbix-agent2.sh`| Nastavení hostname, metadata, IP Zabbix serveru a restart služby     |
 
-### Konfigurace Zabbix Agent2
-
-```console
-joe /etc/zabbix/zabbix_agent2.conf
-...
-Hostname=ubuntu-8e714c18
-Server=enceladus.pfsense.cz
-ServerActive=enceladus.pfsense.cz
-Timeout=30
-HostMetadata=SPOS
-
-systemctl restart zabbix-agent2
-```
-...
+---
